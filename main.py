@@ -136,8 +136,8 @@ def main() -> None:
         print('Tie!')
 
 
-try:
-    if __name__ == '__main__':
+if __name__ == '__main__':
+    try:
         players = ['X', 'O']
         if HUMAN == AI:
             raise Exception('HUMAN and AI cannot be the same player!')
@@ -146,5 +146,5 @@ try:
             raise Exception('AI and HUMAN pair must the X-O pair!')
 
         main()
-except Exception as e:
-    print(f'Error message: {e}')
+    except Exception as e:
+        print(f'Error message: {e}')
