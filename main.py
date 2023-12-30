@@ -39,7 +39,7 @@ def print_map(game_map: np.array) -> None:
     print("---------------")
 
 
-def check_map(game_map: np.array, is_calculation=False) -> str:
+def check_map(game_map: np.array) -> str:
     status = None
 
     for i in range(3):
@@ -65,16 +65,13 @@ def check_map(game_map: np.array, is_calculation=False) -> str:
     if is_tie:
         status = 'tie'
 
-    if status is not None and not is_calculation:
-        print_map(game_map)
-
     return status
 
 
 def minimax(game_map: np.array, is_maximizing: bool) -> int:
     best_score = -100 if is_maximizing else 100
 
-    result = check_map(game_map, True)
+    result = check_map(game_map)
     if result is not None:
         return SCORES.get(result)
 
@@ -128,6 +125,26 @@ def main() -> None:
         turn = HUMAN if turn == AI else AI
         get_input(turn, game_map)
 
+    print_map(game_map)
+    result = check_map(game_map)
 
-if __name__ == '__main__':
-    main()
+    if result == HUMAN:  # It's impossible but yeah idk
+        print('You won!')
+    elif result == AI:
+        print('AI won!')
+    else:
+        print('Tie!')
+
+
+try:
+    if __name__ == '__main__':
+        players = ['X', 'O']
+        if HUMAN == AI:
+            raise Exception('HUMAN and AI cannot be the same player!')
+
+        elif not players.__contains__(HUMAN) or not players.__contains__(AI):
+            raise Exception('AI and HUMAN pair must the X-O pair!')
+
+        main()
+except Exception as e:
+    print(f'Error message: {e}')
