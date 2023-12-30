@@ -32,11 +32,11 @@ def get_input(user: str, game_map: np.array) -> None:
 def print_map(game_map: np.array) -> None:
     print()
     for i in game_map:
-        print("---------------")
+        print('---------------')
         for j in i:
-            print(f"| {j} |", end="")
+            print(f'| {j} |', end='')
         print()
-    print("---------------")
+    print('---------------')
 
 
 def check_map(game_map: np.array) -> str:
@@ -55,15 +55,11 @@ def check_map(game_map: np.array) -> str:
     elif np.all(np.diag(game_map) == AI) or np.all(np.diag(np.fliplr(game_map)) == AI):
         status = AI
 
-    is_tie = True
     for i in game_map:
         for j in i:
             if j == ' ':
-                is_tie = False
+                status = 'tie'
                 break
-
-    if is_tie:
-        status = 'tie'
 
     return status
 
