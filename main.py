@@ -9,7 +9,7 @@ SCORES = {
 }
 
 
-def get_input(user: str, game_map: np.array):
+def get_input(user: str, game_map: np.array) -> None:
     if user == HUMAN:
         while True:
             print_map(game_map)
@@ -29,7 +29,7 @@ def get_input(user: str, game_map: np.array):
         ai_move(game_map)
 
 
-def print_map(game_map: np.array):
+def print_map(game_map: np.array) -> None:
     print()
     for i in game_map:
         print("---------------")
@@ -71,7 +71,7 @@ def check_map(game_map: np.array, is_calculation=False) -> str:
     return status
 
 
-def minimax(game_map: np.array, is_maximizing) -> int:
+def minimax(game_map: np.array, is_maximizing: bool) -> int:
     best_score = -100 if is_maximizing else 100
 
     result = check_map(game_map, True)
@@ -101,7 +101,7 @@ def minimax(game_map: np.array, is_maximizing) -> int:
     return best_score
 
 
-def ai_move(game_map) -> None:
+def ai_move(game_map: np.array) -> None:
     best_move = []
     best_score = -100
 
