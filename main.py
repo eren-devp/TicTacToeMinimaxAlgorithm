@@ -9,7 +9,7 @@ SCORES = {
 }
 
 
-def get_input(user: str, game_map: np.array) -> None:
+def get_input(user: str, game_map: np.array):
     if user == HUMAN:
         while True:
             print_map(game_map)
@@ -29,17 +29,17 @@ def get_input(user: str, game_map: np.array) -> None:
         ai_move(game_map)
 
 
-def print_map(game_map: np.array) -> None:
+def print_map(game_map: np.array):
     print()
     for i in game_map:
-        print('---------------')
+        print("---------------")
         for j in i:
-            print(f'| {j} |', end='')
+            print(f"| {j} |", end="")
         print()
-    print('---------------')
+    print("---------------")
 
 
-def check_map(game_map: np.array) -> str:
+def check_map(game_map: np.array, is_calculation=False) -> str:
     status = None
 
     for i in range(3):
@@ -55,19 +55,26 @@ def check_map(game_map: np.array) -> str:
     elif np.all(np.diag(game_map) == AI) or np.all(np.diag(np.fliplr(game_map)) == AI):
         status = AI
 
+    is_tie = True
     for i in game_map:
         for j in i:
             if j == ' ':
-                status = 'tie'
+                is_tie = False
                 break
+
+    if is_tie:
+        status = 'tie'
+
+    if status is not None and not is_calculation:
+        print_map(game_map)
 
     return status
 
 
-def minimax(game_map: np.array, is_maximizing: bool) -> int:
+def minimax(game_map: np.array, is_maximizing) -> int:
     best_score = -100 if is_maximizing else 100
 
-    result = check_map(game_map)
+    result = check_map(game_map, True)
     if result is not None:
         return SCORES.get(result)
 
@@ -94,7 +101,7 @@ def minimax(game_map: np.array, is_maximizing: bool) -> int:
     return best_score
 
 
-def ai_move(game_map: np.array) -> None:
+def ai_move(game_map) -> None:
     best_move = []
     best_score = -100
 
@@ -121,26 +128,6 @@ def main() -> None:
         turn = HUMAN if turn == AI else AI
         get_input(turn, game_map)
 
-    print_map(game_map)
-    result = check_map(game_map)
-
-    if result == HUMAN:  # It's impossible but yeah idk
-        print('You won!')
-    elif result == AI:
-        print('AI won!')
-    else:
-        print('Tie!')
-
 
 if __name__ == '__main__':
-    try:
-        players = ['X', 'O']
-        if HUMAN == AI:
-            raise Exception('HUMAN and AI cannot be the same player!')
-
-        elif not players.__contains__(HUMAN) or not players.__contains__(AI):
-            raise Exception('AI and HUMAN pair must the X-O pair!')
-
-        main()
-    except Exception as e:
-        print(f'Error message: {e}')
+    main()
